@@ -23,6 +23,16 @@ def get_individual_curves_log(filename,unpack=True):
     time,time_high,time_low, flux, flux_high,flux_low = np.genfromtxt(filename, delimiter='\t', unpack=unpack, skip_header=1)
     return time,time_high,time_low,flux,flux_high,flux_low
 
+def get_y(res, n, x):
+    '''
+    Pass the result object from lmfit
+    '''
+    bfit = res.params
+    tbreaks = [bfit["tb"+str(i)].value for i in range(n-1)]
+    alphas = [bfit["alpha_"+str(i)].value for i in range(n)]
+    y = nbroken_law(x,tbreaks, alphas, bfit["amplitude"].value)
+    return y
+
 
 def power_law(x,alpha_1,amplitude):
     return amplitude * x ** (-alpha_1)
@@ -106,24 +116,24 @@ def cost_func_pl(params,x,y,x_err,y_err, orth=False):
     v = params.valuesdict()
     y_model = power_law(x,v["alpha_1"],v["amplitude"])
     if orth == True:
-        cost_fn = np.sqrt(((y_model - y)/y_err)**2 + 1/x_err**2)
-    cost_fn = np.sqrt(((y_model - y)/y_err)**2)
+        cost_fn = (y_model - y)/y_err + 1/x_err
+    cost_fn = (y_model - y)/y_err
     return cost_fn
 
 def cost_func_bpl(params,x,y,x_err,y_err, orth=False):
     v = params.valuesdict()
     y_model = broken_power_law(x,v["t_break"],v["alpha_1"],v["alpha_2"],v["amplitude"])
     if orth == True:
-        cost_fn = np.sqrt(((y_model - y)/y_err)**2 + 1/x_err**2)
-    cost_fn = np.sqrt(((y_model - y)/y_err)**2)
+        cost_fn = (y_model - y)/y_err + 1/x_err
+    cost_fn = (y_model - y)/y_err
     return cost_fn
 
 def cost_func_dbl(params, x, y, x_err, y_err, orth=False):
     v = params.valuesdict()
     y_model = double_broken_law(x,v["tb0"],v["tb1"],v["alpha_0"],v["alpha_1"],v["alpha_2"],v["amplitude"])
     if orth == True:
-        cost_fn = np.sqrt(((y_model - y)/y_err)**2 + 1/x_err**2)
-    cost_fn = np.sqrt(((y_model - y)/y_err)**2)
+        cost_fn = (y_model - y)/y_err + 1/x_err
+    cost_fn = (y_model - y)/y_err
     return cost_fn
 
 def cost_func_nbpl(params, x, y, x_err, y_err, n, orth=False):
@@ -132,6 +142,6 @@ def cost_func_nbpl(params, x, y, x_err, y_err, n, orth=False):
     alphas = [v["alpha_"+str(i)] for i in range(n)]
     y_model = nbroken_law(x,tbreaks, alphas,v["amplitude"])
     if orth == True:
-        cost_fn = np.sqrt(((y_model - y)/y_err)**2 + 1/x_err**2)
-    cost_fn = np.sqrt(((y_model - y)/y_err)**2)
+        cost_fn = (y_model - y)/y_err + 1/x_err
+    cost_fn = (y_model - y)/y_err
     return cost_fn
