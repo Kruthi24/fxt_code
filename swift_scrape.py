@@ -1,4 +1,10 @@
-# swift_scrape.py
+"""
+swift_scrape.py - a small library of Swift-scraping tools (code by Benjamin Gompertz) 
+
+Change the 'loc' directory path to your desired path. The code will create directories on top of 'loc' for each GRB you request.
+
+Documentation for get_targetIDs, get_xrt, get_xrtdense added by Kruthi Krishna
+"""
 
 
 import numpy as np
@@ -12,6 +18,9 @@ loc='./afterglow_data/'
 
 
 def get_targetIDs(url='https://www.swift.ac.uk/xrt_curves/grb.list',save=True):
+    """
+    get_targetIDs function populates a lookup table of GRBs vs their target IDs.
+    """
 
 	with urllib.request.urlopen(url) as f:
 		string = f.read().decode('utf-8').splitlines()
@@ -34,6 +43,17 @@ def get_targetIDs(url='https://www.swift.ac.uk/xrt_curves/grb.list',save=True):
 
 
 def get_xrt(GRB,uselocal=True,keep=False):
+    """
+	Retrieves the XRT 0.3 - 10keV flux light curves for a given GRB.
+
+	Args:
+		GRB (str): The name of the GRB, e.g. '060614'.
+		uselocal (bool, optional): If True, checks for a locally saved version of the data file before attempting the download. Defaults to True.
+		keep (bool, optional): If True, saves the data locally after use. Defaults to False.
+	
+	Returns:
+		data (astropy.table.Table): Lightcuve data containing columns - 'time','tpos','tneg','flux','fpos','fneg'
+	"""
 
 	if uselocal == True:
 		try:
@@ -97,6 +117,7 @@ def get_xrt(GRB,uselocal=True,keep=False):
 	
 	
 def get_batxrt(GRB,snr='4',band='XRT',evolving=False,spec=False,uselocal=True,keep=False):
+    
 	
 	if uselocal == True:
 		try:
@@ -247,7 +268,18 @@ def get_batxrt(GRB,snr='4',band='XRT',evolving=False,spec=False,uselocal=True,ke
 	return data
 	
 
-def get_xrtdense(GRB,uselocal=True,keep=False):	# Retrieves the 1keV flux density light curves from the UKSSDC. SNR = 4, no spectral evolution.
+def get_xrtdense(GRB,uselocal=True,keep=False):
+    """
+    Retrieves the 1keV BAT+XRT flux density light curves from the UKSSDC (in Jy). SNR = 4, no spectral evolution.
+    
+	Args:
+		GRB (str): The name of the GRB, e.g. '060614'.
+		uselocal (bool, optional): If True, checks for a locally saved version of the data file before attempting the download. Defaults to True.
+		keep (bool, optional): If True, saves the data locally after use. Defaults to False.
+
+	Returns:
+		data (astropy.table.Table): Lightcuve data containing columns - 'time','tpos','tneg','flux','fpos','fneg'
+	"""
 	
 	if uselocal == True:
 		try:
