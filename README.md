@@ -8,7 +8,9 @@ Step 1: Clone this repository
 
     git clone https://github.com/semaphoreP/codeastro.git
 
-Step 2: Activate the python environment where you want to install the package
+Step 2: Activate the python environment where you want to install the package. For instance:
+
+    conda activate <env_name>
 
 Step 3: ```cd``` to the directory containing setup.py, then type:
 
