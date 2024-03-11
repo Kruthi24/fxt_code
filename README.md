@@ -1,8 +1,9 @@
 # fxt_code
 
-Scripts for FXT project bundled into a mini-package!
+1. Scripts for FXT project bundled into a mini-package 
+2. Jupyter notebooks used for analysis
 
-## Installation instructions:
+## Installation instructions for mini-package:
 
 Step 1: Clone this repository
 
@@ -18,7 +19,7 @@ Step 3: ```cd``` to the directory containing setup.py, then type:
 
 Note: to install an editable version use ```pip install -e .```
 
-## Using the package
+## Using the mini-package
 
 The package has two modules as of now: lc_lmfit and swift_scrape. These can be import as
     
