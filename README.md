@@ -6,7 +6,7 @@ Scripts for FXT project bundled into a mini-package!
 
 Step 1: Clone this repository
 
-    git clone https://github.com/semaphoreP/codeastro.git
+    git clone 
 
 Step 2: Activate the python environment where you want to install the package. For instance:
 
