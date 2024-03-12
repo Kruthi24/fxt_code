@@ -78,9 +78,11 @@ def get_xrt(GRB,uselocal=True,keep=False):
 				string = f.read().decode('utf-8').splitlines()
 		except HTTPError:
 			string = -404.	# Webpage not found
+			print("Webpage not found")
 			continue
 		if string[0][0] == '<':
 			string = -999.	# Webpage exists but data file does not.
+			print("Webpage exists but data file does not")
 			continue
 		break	# If data is found for a target ID, end the loop.
 	
