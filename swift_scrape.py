@@ -18,9 +18,9 @@ loc='./afterglow_data/'
 
 
 def get_targetIDs(url='https://www.swift.ac.uk/xrt_curves/grb.list',save=True):
-    """
-    get_targetIDs function populates a lookup table of GRBs vs their target IDs.
-    """
+	"""
+	get_targetIDs function populates a lookup table of GRBs vs their target IDs.
+	"""
 
 	with urllib.request.urlopen(url) as f:
 		string = f.read().decode('utf-8').splitlines()
@@ -43,7 +43,7 @@ def get_targetIDs(url='https://www.swift.ac.uk/xrt_curves/grb.list',save=True):
 
 
 def get_xrt(GRB,uselocal=True,keep=False):
-    """
+	"""
 	Retrieves the XRT 0.3 - 10keV flux light curves for a given GRB.
 
 	Args:
@@ -117,7 +117,7 @@ def get_xrt(GRB,uselocal=True,keep=False):
 	
 	
 def get_batxrt(GRB,snr='4',band='XRT',evolving=False,spec=False,uselocal=True,keep=False):
-    
+	
 	
 	if uselocal == True:
 		try:
@@ -184,7 +184,7 @@ def get_batxrt(GRB,snr='4',band='XRT',evolving=False,spec=False,uselocal=True,ke
 		batfile = loc+'temp/'+tID+'/bat/bat_gamma_snr'+snr+'_'+band+'BAND.qdp'
 		wtfile = loc+'temp/'+tID+'/xrt/xrt_gamma_wt.qdp'
 		pcfile = loc+'temp/'+tID+'/xrt/xrt_gamma_pc.qdp'
-        
+		
 	Time = []
 	Tpos = []
 	Tneg = []
@@ -269,9 +269,9 @@ def get_batxrt(GRB,snr='4',band='XRT',evolving=False,spec=False,uselocal=True,ke
 	
 
 def get_xrtdense(GRB,uselocal=True,keep=False):
-    """
-    Retrieves the 1keV BAT+XRT flux density light curves from the UKSSDC (in Jy). SNR = 4, no spectral evolution.
-    
+	"""
+	Retrieves the 1keV BAT+XRT flux density light curves from the UKSSDC (in Jy). SNR = 4, no spectral evolution.
+	
 	Args:
 		GRB (str): The name of the GRB, e.g. '060614'.
 		uselocal (bool, optional): If True, checks for a locally saved version of the data file before attempting the download. Defaults to True.
@@ -310,7 +310,7 @@ def get_xrtdense(GRB,uselocal=True,keep=False):
 	# Append WT and PC files to directory paths
 	wtfile = loc+'temp/'+tID+'/xrt/xrt_flux_wt_OBSDENSITY_nosys.qdp'
 	pcfile = loc+'temp/'+tID+'/xrt/xrt_flux_pc_OBSDENSITY_nosys.qdp'
-        
+		
 	Time = []
 	Tpos = []
 	Tneg = []
@@ -403,7 +403,7 @@ def t90(GRB):
 				return 	np.round(float(string[i].split()[1]),3), np.round(float(string[i].split()[3]),3)	# Return T90 and error.
 		except IndexError:
 			pass
-    
+	
 	return -999., -999.	# T90 not found.
 	
 	
