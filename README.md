@@ -13,7 +13,7 @@ Step 2: Activate the python environment where you want to install the package. F
 
     conda activate <env_name>
 
-Step 3: ```cd``` to the directory containing setup.py, then type:
+Step 3: ```cd``` to the directory containing setup.py, then do:
 
     pip install .
 
