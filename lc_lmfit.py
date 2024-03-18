@@ -102,7 +102,7 @@ def lnlikehood(x, y, yerr, theta,BPL):
     else:
         alpha_1,amplitude = theta
         model = power_law(x,alpha_1,amplitude)
-    return -0.5*(np.sum((y-model)**2/(yerr**2) + np.log(np.sqrt(yerr**2)*2*pi)))
+    return -0.5*(np.sum((y-model)**2/(yerr**2) + np.log(np.sqrt(yerr**2)*2*np.pi)))
 
 def information_criteria(ln_like,y,theta):
     '''
@@ -129,15 +129,15 @@ def lnprior(theta):
     t_break,alpha_1,alpha_2,amplitude = theta
     if 1e1<t_break<1e4 and -1.0<alpha_1<0.2 and 0.0<alpha_2<4.0 and 1e-15<amplitude<1e-11:
         return 0.0
-    return -inf
+    return -np.inf
 
 def lnprob(theta, x, y, yerr):
     '''
     Calculate the log-posterior of the model parameters.
     '''
     lp = lnprior(theta)
-    if not isfinite(lp):
-        return -inf
+    if not np.isfinite(lp):
+        return -np.inf
     return lp + lnlike(theta, x, y, yerr)
 
 
