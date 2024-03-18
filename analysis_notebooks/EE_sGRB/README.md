@@ -17,11 +17,12 @@ afterglow_data/
 ## Tutorial: How to get XRT data?
 
     import swift_scrape
-
-    GRBs=["050724","060614", "061210", "070714B", "071227", "150424A","211211A",
-          "211227A", "051227","061006","080123","080503","090531B","111121A"]
-          
-    swift_scrape.get_targetIDs(save=True)
+    
+    location = os.path.abspath('./afterglow_data/')+'/'
+    
+    GRBs=['050724', '051227', '060614', '061006', '061210', '070714B', '071227', '080123', '080503', '111121A', '150424A', '211211A', '211227A']
+    
+    swift_scrape.get_targetIDs(save=True, loc=location)
     
     for grb in GRBs:
-      swift_scrape.get_xrt(grb,keep=True)
+        swift_scrape.get_batxrt(grb, loc=location)
