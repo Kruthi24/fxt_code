@@ -14,12 +14,13 @@ from astropy.table import Table
 from astropy.io import ascii
 from urllib.error import HTTPError
 
-loc='./afterglow_data/'
 
-
-def get_targetIDs(url='https://www.swift.ac.uk/xrt_curves/grb.list',save=True):
+def get_targetIDs(loc, url='https://www.swift.ac.uk/xrt_curves/grb.list',save=True):
 	"""
 	get_targetIDs function populates a lookup table of GRBs vs their target IDs.
+ 
+	Args:
+		loc = directory path to save the targetIDs.txt file
 	"""
 
 	with urllib.request.urlopen(url) as f:
@@ -42,7 +43,7 @@ def get_targetIDs(url='https://www.swift.ac.uk/xrt_curves/grb.list',save=True):
 	return IDs
 
 
-def get_xrt(GRB,uselocal=True,keep=False):
+def get_xrt(GRB,loc, uselocal=True,keep=False):
 	"""
 	Retrieves the XRT 0.3 - 10keV flux light curves for a given GRB.
 
@@ -118,15 +119,30 @@ def get_xrt(GRB,uselocal=True,keep=False):
 	return data
 	
 	
-def get_batxrt(GRB,snr='4',band='XRT',evolving=False,spec=False,uselocal=True,keep=False):
-	
+def get_batxrt(GRB, loc, snr='4', band='XRT', evolving=False, spec=False, uselocal=True, keep=False):
+	"""
+	Retrieves data for a specific GRB (Gamma-Ray Burst) from the Swift Burst Analyser website.
+
+	Parameters:
+	- GRB (str): The name of the GRB.
+	- loc (str): The location where the data will be stored.
+	- snr (str, optional): The signal-to-noise ratio threshold. Default is '4'.
+	- band (str, optional): The band of the data. Default is 'XRT'.
+	- evolving (bool, optional): Whether to include evolving data. Default is False.
+	- spec (bool, optional): Whether to retrieve spectral data. Default is False.
+	- uselocal (bool, optional): Whether to use local files if available. Default is True.
+	- keep (bool, optional): Whether to keep the downloaded data. Default is False.
+
+	Returns:
+	- data (astropy.table.Table): The retrieved data in the form of an astropy table.
+	"""
 	
 	if uselocal == True:
 		try:
 			if spec == True:
-				data = ascii.read(loc+GRB+'/xray/spec.txt')
+				data = ascii.read(loc+GRB+'_xray_spec.txt')
 			else:
-				data = ascii.read(loc+GRB+'/xray/batxrt.txt')
+				data = ascii.read(loc+GRB+'_xray_batxrt.txt')
 			print('Local file found for '+GRB)
 			return data
 		except FileNotFoundError:
@@ -244,14 +260,12 @@ def get_batxrt(GRB,snr='4',band='XRT',evolving=False,spec=False,uselocal=True,ke
 	else:
 		data = Table([Time,Tpos,Tneg,Flux,Fpos,Fneg],names=('time','tpos','tneg','flux','fpos','fneg'))
 	data.sort('time')
-	if not os.path.exists(loc+GRB):
-			os.mkdir(loc+GRB)
-	if not os.path.exists(loc+GRB+'/xray'):
-			os.mkdir(loc+GRB+'/xray')
+	if not os.path.exists(loc):
+			os.mkdir(loc)
 	if spec == True:
-		data.write(loc+GRB+'/xray/spec.txt',format='csv',delimiter='\t',overwrite=True)
+		data.write(loc+GRB+'_xray_spec.txt',format='csv',delimiter='\t',overwrite=True)
 	else:
-		data.write(loc+GRB+'/xray/batxrt.txt',format='csv',delimiter='\t',overwrite=True)
+		data.write(loc+GRB+'_xray_batxrt.txt',format='csv',delimiter='\t',overwrite=True)
 	
 	# Option to save the whole download.
 	if keep == True:
@@ -270,7 +284,7 @@ def get_batxrt(GRB,snr='4',band='XRT',evolving=False,spec=False,uselocal=True,ke
 	return data
 	
 
-def get_xrtdense(GRB,uselocal=True,keep=False):
+def get_xrtdense(GRB, loc, uselocal=True,keep=False):
 	"""
 	Retrieves the 1keV BAT+XRT flux density light curves from the UKSSDC (in Jy). SNR = 4, no spectral evolution.
 	
