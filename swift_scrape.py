@@ -194,12 +194,12 @@ def get_batxrt(GRB, loc, snr='4', band='XRT', evolving=False, spec=False, useloc
 		xrtevolve = ''
 	
 	# Append BAT, WT and PC files to directory paths
-	batfile = loc+'temp/'+tID+'/bat/bat_flux_snr'+snr+'_'+band+'BAND'+batevolve+'.qdp'
+	batfile = loc+'temp/'+tID+'/bat/bat_flux_snr'+str(snr)+'_'+band+'BAND'+batevolve+'.qdp'
 	wtfile = loc+'temp/'+tID+'/xrt/xrt_flux_wt_'+band+'BAND'+xrtevolve+'.qdp'
 	pcfile = loc+'temp/'+tID+'/xrt/xrt_flux_pc_'+band+'BAND'+xrtevolve+'.qdp'
 	
 	if spec == True:
-		batfile = loc+'temp/'+tID+'/bat/bat_gamma_snr'+snr+'_'+band+'BAND.qdp'
+		batfile = loc+'temp/'+tID+'/bat/bat_gamma_snr'+str(snr)+'_'+band+'BAND.qdp'
 		wtfile = loc+'temp/'+tID+'/xrt/xrt_gamma_wt.qdp'
 		pcfile = loc+'temp/'+tID+'/xrt/xrt_gamma_pc.qdp'
 		
