@@ -1,15 +1,13 @@
 ## Contents
-grb_bpl.csv
-- has broken power law parameters for all GRBs
 
-grb_initial_pl.csv
-- has parameters for initial emission's powelaw fit for all GRBs
+eegrb_fit_parameters.csv
+- has parameters for n-broken power law fit for all GRBs
 
 GRB_LC_X.ipynb
 - notebook for fitting 'GRB X'
 
 LC_swift_workbook.ipynb
-- initial/exploration notebook
+- initial exploration notebook based on Jonathan Quirola-Vásquez notebook (LC_paper_I.ipynb)
 
 afterglow_data/
 - folder with X-ray afterglow data of all the GRBs
