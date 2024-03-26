@@ -1,4 +1,5 @@
-#lc_lmfit.py
+# Written by Kruthi Krishna (2024). Contains various broken power law functions and their respective cost functions.
+# Also includes some functions (not used in this project) from Jonathan's notebooks.
 
 import numpy as np
 import swift_scrape
@@ -90,7 +91,54 @@ def nbroken_law(x, breaks, alphas, amplitude):
         x_seg = np.append(x_seg,scaling_factors * x_chunk**(-alphas[i]))
     return amplitude * (breaks[0])**(alphas[0]) * x_seg
 
+#objective functions
+def cost_func_pl(params,x,y,x_err,y_err, orth=False):
+    '''
+    Calculate the cost function for the power law model.
+    '''
+    v = params.valuesdict()
+    y_model = power_law(x,v["alpha_1"],v["amplitude"])
+    if orth == True:
+        cost_fn = (y_model - y)/y_err + 1/x_err
+    cost_fn = (y_model - y)/y_err
+    return cost_fn
 
+def cost_func_bpl(params,x,y,x_err,y_err, orth=False):
+    '''
+    Calculate the cost function for the broken power law model.
+    '''
+    v = params.valuesdict()
+    y_model = broken_power_law(x,v["t_break"],v["alpha_1"],v["alpha_2"],v["amplitude"])
+    if orth == True:
+        cost_fn = (y_model - y)/y_err + 1/x_err
+    cost_fn = (y_model - y)/y_err
+    return cost_fn
+
+def cost_func_dbl(params, x, y, x_err, y_err, orth=False):
+    '''
+    Calculate the cost function for the double broken power law model.
+    '''
+    v = params.valuesdict()
+    y_model = double_broken_law(x,v["tb0"],v["tb1"],v["alpha_0"],v["alpha_1"],v["alpha_2"],v["amplitude"])
+    if orth == True:
+        cost_fn = (y_model - y)/y_err + 1/x_err
+    cost_fn = (y_model - y)/y_err
+    return cost_fn
+
+def cost_func_nbpl(params, x, y, x_err, y_err, n, orth=False):
+    '''
+    Calculate the cost function for the n-broken power law model.
+    '''
+    v = params.valuesdict()
+    tbreaks = [v["tb"+str(i)] for i in range(n-1)]
+    alphas = [v["alpha_"+str(i)] for i in range(n)]
+    y_model = nbroken_law(x,tbreaks, alphas,v["amplitude"])
+    if orth == True:
+        cost_fn = (y_model - y)/y_err + 1/x_err
+    cost_fn = (y_model - y)/y_err
+    return cost_fn
+
+#code by Jonathan Quirola-Vásquez for MCMC fitting
 def lnlikehood(x, y, yerr, theta,BPL):
     '''
     Calculate the log-likelihood of the data given the model parameters.
@@ -141,49 +189,3 @@ def lnprob(theta, x, y, yerr):
     return lp + lnlike(theta, x, y, yerr)
 
 
-#objective functions
-def cost_func_pl(params,x,y,x_err,y_err, orth=False):
-    '''
-    Calculate the cost function for the power law model.
-    '''
-    v = params.valuesdict()
-    y_model = power_law(x,v["alpha_1"],v["amplitude"])
-    if orth == True:
-        cost_fn = (y_model - y)/y_err + 1/x_err
-    cost_fn = (y_model - y)/y_err
-    return cost_fn
-
-def cost_func_bpl(params,x,y,x_err,y_err, orth=False):
-    '''
-    Calculate the cost function for the broken power law model.
-    '''
-    v = params.valuesdict()
-    y_model = broken_power_law(x,v["t_break"],v["alpha_1"],v["alpha_2"],v["amplitude"])
-    if orth == True:
-        cost_fn = (y_model - y)/y_err + 1/x_err
-    cost_fn = (y_model - y)/y_err
-    return cost_fn
-
-def cost_func_dbl(params, x, y, x_err, y_err, orth=False):
-    '''
-    Calculate the cost function for the double broken power law model.
-    '''
-    v = params.valuesdict()
-    y_model = double_broken_law(x,v["tb0"],v["tb1"],v["alpha_0"],v["alpha_1"],v["alpha_2"],v["amplitude"])
-    if orth == True:
-        cost_fn = (y_model - y)/y_err + 1/x_err
-    cost_fn = (y_model - y)/y_err
-    return cost_fn
-
-def cost_func_nbpl(params, x, y, x_err, y_err, n, orth=False):
-    '''
-    Calculate the cost function for the n-broken power law model.
-    '''
-    v = params.valuesdict()
-    tbreaks = [v["tb"+str(i)] for i in range(n-1)]
-    alphas = [v["alpha_"+str(i)] for i in range(n)]
-    y_model = nbroken_law(x,tbreaks, alphas,v["amplitude"])
-    if orth == True:
-        cost_fn = (y_model - y)/y_err + 1/x_err
-    cost_fn = (y_model - y)/y_err
-    return cost_fn
