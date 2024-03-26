@@ -9,10 +9,12 @@ LC_paper_I.ipynb, LC_paper_paper_II.ipynb
 FXRT_refitting_part1.ipynb
 - notebook for refitting FXT lightcurves using lc_lmfit.py written by Kruthi Krishna (2024)
 - contains FXRT 1 to 11
+- output: fxrt_refit_parameters.csv
 
 FXRT_refitting_part2.ipynb
 - notebook for refitting FXT lightcurves using lc_lmfit.py written by Kruthi Krishna (2024)
 - contains FXRT 12 to 22
+- output: fxrt_refit_parameters.csv
 
 data/
 - folder containing all the FXT lightcurves

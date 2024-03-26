@@ -12,6 +12,10 @@ LC_swift_workbook.ipynb
 afterglow_data/
 - folder with X-ray afterglow data of all the GRBs
 
+GRB_final_fits.ipynb
+- contains final fit parameters compiled from "GRB_LC_X.ipynb" notebooks
+- output: eegrb_fit_parameters.csv & plot
+
 ## Tutorial: How to get XRT data?
 
     import swift_scrape
