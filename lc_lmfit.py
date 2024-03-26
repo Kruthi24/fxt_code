@@ -52,8 +52,8 @@ def double_broken_law(x, tb0, tb1, alpha_0, alpha_1, alpha_2, amplitude):
     '''
     Calculate the double broken power law function.
     '''
-    x0 = x[np.where(x<tb0)]
-    x1 = x[np.where((x>tb0)&(x<tb1))]
+    x0 = x[np.where(x<=tb0)]
+    x1 = x[np.where((x>tb0)&(x<=tb1))]
     x2 = x[np.where(x>tb1)]
     x0 = (x0/tb0)**(-alpha_0)
     x1 = (x1/tb0)**(-alpha_1)
@@ -65,9 +65,9 @@ def triple_broken_law(x, tb0, tb1, tb2, alpha_0, alpha_1, alpha_2, alpha_3, ampl
     '''
     Calculate the triple broken power law function.
     '''
-    x0 = x[np.where(x<tb0)]
-    x1 = x[np.where((x>tb0)&(x<tb1))]
-    x2 = x[np.where((x>tb1)&(x<tb2))]
+    x0 = x[np.where(x<=tb0)]
+    x1 = x[np.where((x>tb0)&(x<=tb1))]
+    x2 = x[np.where((x>tb1)&(x<=tb2))]
     x3 = x[np.where(x>tb2)]
     x0 = (x0/tb0)**(-alpha_0)
     x1 = (x1/tb0)**(-alpha_1)
